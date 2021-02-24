@@ -7,12 +7,16 @@ use Illuminate\Http\Response;
 use App\Http\Requests\HelloRequest;
 use Validator;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+use App\Person;
 
 class HelloController extends Controller
 {
     public function index(Request $request){
-        $items = DB::table('people')->get();
-        return view ('hello.index', ['items' => $items ]);
+        $user = Auth::user();
+        $items = Person::all();
+        $param = ['items' => $items, 'user' => $user];
+        return view ('hello.index', $param);
     }
 
     public function post(Request $request){
